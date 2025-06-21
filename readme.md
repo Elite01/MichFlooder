@@ -1,6 +1,9 @@
 # MichFlooder v1.0
 
-**License:** MIT  
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.7%2B-blue.svg)
+![Platform](https://img.shields.io/badge/Platform-linux%20%7C%20macOS%20%7C%20windows-lightgrey)
+
 **Description:** Multi-threaded packet flooder using Scapy, supporting ICMP, TCP, UDP, DNS, HTTP, and HTTPS.
 
 ---
