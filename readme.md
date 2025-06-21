@@ -1,8 +1,3 @@
-Sure! Here's the extended `README.md` based on your new content, with an updated **Usage** section that reflects how to use your tool in practice, plus a few refinements:
-
----
-
-````markdown
 # MichFlooder v1.0
 
 **License:** MIT  
@@ -161,16 +156,4 @@ This project is licensed under the [MIT License](LICENSE).
 ## 🙋‍♂️ Acknowledgments
 
 Built using [Scapy](https://scapy.net/).
-Created by **MichelCohen**.
 
-```
-
----
-
-Let me know if you’d like to:
-
-- Add badge icons (e.g. build status, license, Python version)
-- Add Docker support
-- Generate sample PCAP or graphs from the statistics
-- Turn this into a PyPI-installable CLI tool
-```
