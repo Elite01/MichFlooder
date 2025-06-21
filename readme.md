@@ -1,6 +1,5 @@
 # MichFlooder v1.0
 
-**Author:** MichelCohen  
 **License:** MIT  
 **Description:** Multi-threaded packet flooder using Scapy, supporting ICMP, TCP, UDP, DNS, HTTP, and HTTPS.
 
