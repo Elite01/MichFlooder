@@ -1,4 +1,4 @@
-# MichFlooder v1.0
+# MichFlooder
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue.svg)
