@@ -18,7 +18,7 @@ This tool is intended for **educational and testing purposes only**.
 ## 🚀 Features
 
 - Supports ICMP, TCP SYN, UDP, DNS, HTTP, and HTTPS protocols.
-- Custom domain querying for DNS/HTTP(S).
+- Custom domain querying for DNS/HTTP.
 - Randomized IPs, ports, and payloads.
 - Adjustable packet size, interval, thread count, and total packet count.
 - Multi-threaded for maximum throughput.
