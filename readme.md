@@ -59,7 +59,7 @@ python michflooder.py [options] TARGET
 | `-s`, `--size`     | Minimum packet size in bytes (max: 1450)                                              |
 | `-t`, `--threads`  | Number of threads to use (default: number of CPU cores)                               |
 | `-i`, `--interval` | Interval (in seconds) between packets (default: `0`)                                  |
-| `-d`, `--domain`   | Domain to include in DNS/HTTP(S) requests (required for `--dns`, `--http`, `--https`) |
+| `-d`, `--domain`   | Domain to include in DNS/HTTP(S) requests (required for `--dns`, `--http`) |
 
 ---
 
