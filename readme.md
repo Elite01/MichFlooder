@@ -111,7 +111,7 @@ python michflooder.py -H -d example.org -p 8080 -n 500 192.168.0.99
 ### HTTPS TLS Hello Flood
 
 ```bash
-python michflooder.py -S -d google.com -p 443 -n 200 1.1.1.1
+python michflooder.py -S -p 443 -n 200 1.1.1.1
 ```
 
 ---
