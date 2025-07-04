@@ -55,16 +55,16 @@ python michflooder.py [options] TARGET
 
 ### 🔸 Optional Arguments
 
-| Flag(s)               | Description                                                                           |
-| --------------------- | ------------------------------------------------------------------------------------- |
-| `-p`, `--port`        | Target port(s). Accepts single port (`80`), ranges (`20-25`), or lists (`80,10-20`).  |
-| `-n`, `--count`       | Number of packets to send (default: infinite)                                         |
-| `-s`, `--size`        | Minimum packet size in bytes (max: 1450)                                              |
-| `-t`, `--threads`     | Number of threads to use (default: number of CPU cores)                               |
-| `-i`, `--interval`    | Interval (in seconds) between packets (default: `0`)                                  |
-| `-d`, `--domain`      | Domain to include in DNS/HTTP(S) requests (required for `--dns`)                      |
-| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` / `--http`)                                     |
-| `-y`, `--accept`      | Immediately start, dont ask for confirmation.                                         |
+| Flag(s)               | Description                                                                           | Default
+| --------------------- | ------------------------------------------------------------------------------------- | --------------------------------------- |
+| `-p`, `--port`        | Target port(s). Accepts port num (`80`), ranges (`20-25`), lists (`80,10-20`).  | `dns`=`53`, `http`=`80`, `https`=`443`. |
+| `-n`, `--count`       | Number of packets to send                                                             | Infinite.                               |
+| `-s`, `--size`        | Minimum packet size in bytes (max: 1450)                                              | Minimal.                                |
+| `-t`, `--threads`     | Number of threads to use.                                                             | Number of CPU cores.                    |
+| `-i`, `--interval`    | Interval (in seconds) between packets.                                                | None.                                   |
+| `-d`, `--domain`      | Domain to include in DNS/HTTP(S) requests (required for `--dns`)                      |                                         |
+| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` / `--http`)                                     |                                         |
+| `-y`, `--accept`      | Immediately start, dont ask for confirmation.                                         |                                         |
 
 ---
 
