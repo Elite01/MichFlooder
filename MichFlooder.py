@@ -72,7 +72,7 @@ def parse_ports(port_str):
     ports = set()
     for part in port_str.split(','):
         if '-' in part:
-            start, end = part.split('-')
+            start, *_, end = part.split('-')
             start = int(start) if start else 1
             end = int(end) if end else 65535
             ports.update(range(start, end + 1))
@@ -118,10 +118,14 @@ def parse_args():
             args.port = "80"
         elif args.protocol == "https":
             args.port = "443"
-        else:
+        elif args.protocol != "icmp":
             parser.error("TCP/UDP requires --port.")
     elif args.protocol == "icmp" and args.port != "0":
         parser.error("--port (-p) not allowed with ICMP.")
+
+    ports = parse_ports(args.port) if args.port else {}
+    if any(port > 65535 for port in ports):
+        parser.error("Ports cannot exceed 65535")
 
     if args.domain:
         if args.protocol in ["dns", "http"]:
@@ -134,7 +138,7 @@ def parse_args():
         if args.rand_domain:
             parser.error("-r (--rand-domain) requires --domain.")
 
-    return args
+    return args, ports
 
 def get_generators(protocol):
     return {
@@ -191,10 +195,9 @@ def main():
     print("==                  ==")
     print("======================\n")
 
-    args = parse_args()
+    args, ports = parse_args()
     print('\n'.join(f"{k:<9} = {v}" for k, v in vars(args).items() if v))
 
-    ports = parse_ports(args.port) if args.port else None
     packet_count = args.count // args.threads if args.count else None
 
     if not args.accept:
