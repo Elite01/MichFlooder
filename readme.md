@@ -58,7 +58,7 @@ python michflooder.py [options] TARGET
 | Flag(s)               | Description                                                                           |
 | --------------------- | ------------------------------------------------------------------------------------- |
 | `-p`, `--port`        | Target port(s). Accepts single port (`80`), ranges (`20-25`), or lists (`80,10-20`).  |
-| `-n`, `--count`       | Number of packets to send per thread (default: infinite)                              |
+| `-n`, `--count`       | Number of packets to send (default: infinite)                                         |
 | `-s`, `--size`        | Minimum packet size in bytes (max: 1450)                                              |
 | `-t`, `--threads`     | Number of threads to use (default: number of CPU cores)                               |
 | `-i`, `--interval`    | Interval (in seconds) between packets (default: `0`)                                  |
