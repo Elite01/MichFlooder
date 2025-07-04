@@ -62,6 +62,33 @@ l7generators = {
     )
 }
 
+def get_generators(protocol):
+    return {
+        "tcp" : (l4generators["tcp"], None),
+        "udp" : (l4generators["udp"], None),
+        "icmp" : (l4generators["icmp"], None),
+        "dns" : (l4generators["udp"], l7generators["dns"]),
+        "http" : (l4generators["tcp"], l7generators["http"]),
+        "rand_dns" : (l4generators["udp"], l7generators["rand_dns"]),
+        "rand_http" : (l4generators["tcp"], l7generators["rand_http"]),
+        "https" : (l4generators["tcp"], l7generators["https"])
+    }.get(protocol)
+
+def gen_packet(destination_ips, ports, protocol, domain, min_size, count):
+    l4func, l7func = get_generators(protocol)
+    ip_layer = IP(dst=HashableRandIP(destination_ips))
+    l4_layer = l4func(ports)
+    l7_layer = l7func(domain) if l7func else Raw()
+    packet_size = len(ip_layer / l4_layer / l7_layer)
+    payload_size = max(0, min_size - packet_size)
+    payload = Raw(load=payload_size)
+    if count:
+        for i in range(count):
+            yield ip_layer / l4_layer / l7_layer / payload
+    else:
+        while True:
+            yield ip_layer / l4_layer / l7_layer / payload
+
 def send_packets(thread_num, target, ports, protocol, domain, size, interval, count):
     print(f"[{now()}] Thread #{thread_num} started...", flush=True)
     packet = gen_packet(target, ports, protocol, domain, size, count)
@@ -140,34 +167,7 @@ def parse_args():
 
     return args, ports
 
-def get_generators(protocol):
-    return {
-        "tcp" : (l4generators["tcp"], None),
-        "udp" : (l4generators["udp"], None),
-        "icmp" : (l4generators["icmp"], None),
-        "dns" : (l4generators["udp"], l7generators["dns"]),
-        "http" : (l4generators["tcp"], l7generators["http"]),
-        "rand_dns" : (l4generators["udp"], l7generators["rand_dns"]),
-        "rand_http" : (l4generators["tcp"], l7generators["rand_http"]),
-        "https" : (l4generators["tcp"], l7generators["https"])
-    }.get(protocol)
-
-def gen_packet(destination_ips, ports, protocol, domain, min_size, count):
-    l4func, l7func = get_generators(protocol)
-    ip_layer = IP(dst=HashableRandIP(destination_ips))
-    l4_layer = l4func(ports)
-    l7_layer = l7func(domain) if l7func else Raw()
-    packet_size = len(ip_layer / l4_layer / l7_layer)
-    payload_size = max(0, min_size - packet_size)
-    payload = Raw(load=payload_size)
-    if count:
-        for i in range(count):
-            yield ip_layer / l4_layer / l7_layer / payload
-    else:
-        while True:
-            yield ip_layer / l4_layer / l7_layer / payload
-
-def print_stats(start_time, packet_count, threads, packet_size):
+def print_stats(start_time, threads, packet_size, packets_sent):
     end_time = time()
     start_str = strftime('%H:%M:%S', localtime(start_time))
     end_str = strftime('%H:%M:%S', localtime(end_time))
@@ -179,8 +179,7 @@ def print_stats(start_time, packet_count, threads, packet_size):
     print(f"End Time     : {end_str}")
     print(f"Time Taken   : {elapsed_time_str}")
 
-    if packet_count:
-        packets_sent = packet_count * threads
+    if packets_sent:
         total_MB = (packet_size * packets_sent) / (1024 ** 2)
         print(f"Packets Sent : {packets_sent:,}")
         print(f"Total Volume : {total_MB:.2f} MB")
@@ -199,6 +198,8 @@ def main():
     print('\n'.join(f"{k:<9} = {v}" for k, v in vars(args).items() if v))
 
     packet_count = args.count // args.threads if args.count else None
+    packet_counters = [0 for _ in range(args.threads)]
+    print(f"1{len(packet_counters)=}")
 
     if not args.accept:
         input(f"Press Enter to start sending...")
@@ -225,7 +226,7 @@ def main():
             process.join()
 
     packet_size = len(next(gen_packet(args.target, ports, args.protocol, args.domain, args.size, 1)))
-    print_stats(start_time, packet_count, args.threads, packet_size)
+    print_stats(start_time, args.threads, packet_size, args.count)
 
 if __name__ == "__main__":
     main()
