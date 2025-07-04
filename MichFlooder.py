@@ -32,7 +32,7 @@ class RandSubDomainHTTP(RandField):
 
     def _fix(self):
         subdomain = "".join(choices(ascii_lowercase, k=5))
-        return self.start + f"{subdomain}.{self.domain}" + self.end
+        return f"{self.start}{subdomain}.{self.domain}{self.end}"
 
 class HashableRandIP(RandIP):
     def __hash__(self):
