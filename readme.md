@@ -55,14 +55,16 @@ python michflooder.py [options] TARGET
 
 ### 🔸 Optional Arguments
 
-| Flag(s)            | Description                                                                           |
-| ------------------ | ------------------------------------------------------------------------------------- |
-| `-p`, `--port`     | Target port(s). Accepts single port (`80`), ranges (`20-25`), or lists (`53,80,443`). |
-| `-n`, `--count`    | Number of packets to send per thread (default: infinite)                              |
-| `-s`, `--size`     | Minimum packet size in bytes (max: 1450)                                              |
-| `-t`, `--threads`  | Number of threads to use (default: number of CPU cores)                               |
-| `-i`, `--interval` | Interval (in seconds) between packets (default: `0`)                                  |
-| `-d`, `--domain`   | Domain to include in DNS/HTTP(S) requests (required for `--dns`, `--http`) |
+| Flag(s)               | Description                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| `-p`, `--port`        | Target port(s). Accepts single port (`80`), ranges (`20-25`), or lists (`80,10-20`).  |
+| `-n`, `--count`       | Number of packets to send per thread (default: infinite)                              |
+| `-s`, `--size`        | Minimum packet size in bytes (max: 1450)                                              |
+| `-t`, `--threads`     | Number of threads to use (default: number of CPU cores)                               |
+| `-i`, `--interval`    | Interval (in seconds) between packets (default: `0`)                                  |
+| `-d`, `--domain`      | Domain to include in DNS/HTTP(S) requests (required for `--dns`)                      |
+| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` / `--http`)                                     |
+| `-y`, `--accept`      | Immediately start, dont ask for confirmation.                                         |
 
 ---
 
@@ -74,7 +76,7 @@ python michflooder.py [options] TARGET
 | `-T`, `--TCP`   | TCP SYN      | Requires `--port`                     |
 | `-U`, `--UDP`   | UDP          | Requires `--port`                     |
 | `-D`, `--DNS`   | DNS over UDP | Requires `--domain`                   |
-| `-H`, `--HTTP`  | HTTP GET     | Requires `--domain`                   |
+| `-H`, `--HTTP`  | HTTP GET     | `--domain` Optional.                  |
 | `-S`, `--HTTPS` | TLS Hello    | Simulated TLS, uses raw binary format |
 
 ---
