@@ -198,8 +198,6 @@ def main():
     print('\n'.join(f"{k:<9} = {v}" for k, v in vars(args).items() if v))
 
     packet_count = args.count // args.threads if args.count else None
-    packet_counters = [0 for _ in range(args.threads)]
-    print(f"1{len(packet_counters)=}")
 
     if not args.accept:
         input(f"Press Enter to start sending...")
