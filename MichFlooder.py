@@ -79,15 +79,16 @@ def gen_packet(destination_ips, ports, protocol, domain, min_size, count):
     ip_layer = IP(dst=HashableRandIP(destination_ips))
     l4_layer = l4func(ports)
     l7_layer = l7func(domain) if l7func else Raw()
-    packet_size = len(ip_layer / l4_layer / l7_layer)
+    packet_size = len(ip_layer / l4_layer / l7_layer)+14 # +14 for ethernet layer, which is not calculated by scapy
     payload_size = max(0, min_size - packet_size)
     payload = Raw(load=payload_size)
+    packet = ip_layer / l4_layer / l7_layer / payload
     if count:
         for i in range(count):
-            yield ip_layer / l4_layer / l7_layer / payload
+            yield packet
     else:
         while True:
-            yield ip_layer / l4_layer / l7_layer / payload
+            yield packet
 
 def send_packets(thread_num, target, ports, protocol, domain, size, interval, count):
     print(f"[{now()}] Thread #{thread_num} started...", flush=True)
@@ -155,10 +156,10 @@ def parse_args():
         parser.error("Ports cannot exceed 65535")
 
     if args.domain:
-        if args.protocol in ["dns", "http"]:
-            args.protocol = f"rand_{args.protocol}"
-        elif args.rand_domain:
+        if args.protocol not in ["dns", "http"]:
             parser.error("-d (--domain) requires DNS/HTTP.")
+        elif args.rand_domain:
+            args.protocol = f"rand_{args.protocol}"
     else:
         if args.protocol == "dns":
             parser.error(f"DNS requires --domain.")
@@ -167,7 +168,7 @@ def parse_args():
 
     return args, ports
 
-def print_stats(start_time, threads, packet_size, packets_sent):
+def print_stats(start_time, packet_size, packets_sent):
     end_time = time()
     start_str = strftime('%H:%M:%S', localtime(start_time))
     end_str = strftime('%H:%M:%S', localtime(end_time))
@@ -224,7 +225,7 @@ def main():
             process.join()
 
     packet_size = len(next(gen_packet(args.target, ports, args.protocol, args.domain, args.size, 1)))
-    print_stats(start_time, args.threads, packet_size, args.count)
+    print_stats(start_time, packet_size+14, args.count)
 
 if __name__ == "__main__":
     main()
