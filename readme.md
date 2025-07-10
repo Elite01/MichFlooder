@@ -47,37 +47,37 @@ python michflooder.py [options] TARGET
 
 ### 🔹 Positional Argument
 
-| Name   | Description                                                   |
-| ------ | ------------------------------------------------------------- |
-| target | Target IP or CIDR subnet (e.g., `192.168.1.1`, `10.0.0.0/24`) |
+| Name   | Description                                                                                       |
+| ------ | ------------------------------------------------------------------------------------------------- |
+| target | Target IP, CIDR, or complete URI (e.g., `192.168.1.1`, `10.0.0.0/24`, `http://example.com:8080`) |
 
 ---
 
 ### 🔸 Optional Arguments
 
 | Flag(s)               | Description                                                                           | Default
-| --------------------- | ------------------------------------------------------------------------------------- | --------------------------------------- |
-| `-p`, `--port`        | Target port(s). Accepts port num (`80`), ranges (`20-25`), lists (`80,10-20`).  | `dns`=`53`, `http`=`80`, `https`=`443`. |
-| `-n`, `--count`       | Number of packets to send                                                             | Infinite.                               |
-| `-s`, `--size`        | Minimum packet size in bytes (max: 1450)                                              | Minimal.                                |
-| `-t`, `--threads`     | Number of threads to use.                                                             | Number of CPU cores.                    |
-| `-i`, `--interval`    | Interval (in seconds) between packets.                                                | None.                                   |
-| `-d`, `--domain`      | Domain to include in DNS/HTTP(S) requests (required for `--dns`)                      |                                         |
-| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` / `--http`)                                     |                                         |
-| `-y`, `--accept`      | Immediately start, dont ask for confirmation.                                         |                                         |
+| --------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `-p`, `--port`        | Target port(s). Accepts port num (`80`), ranges (`20-25`), lists (`80,10-20`).        | `dns`: `53`, `http`: `80`, `https`: `443`. |
+| `-n`, `--count`       | Number of packets to send                                                             | Infinite.                                  |
+| `-s`, `--size`        | Minimum packet size in bytes (max: 1450)                                              | Minimal.                                   |
+| `-t`, `--threads`     | Number of threads to use.                                                             | Number of CPU cores.                       |
+| `-i`, `--interval`    | Interval (in seconds) between packets.                                                | None.                                      |
+| `-d`, `--domain`      | Domain to include in DNS/HTTP(S) requests (required for `--dns`)                      |                                            |
+| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` / `--http`)                                     |                                            |
+| `-y`, `--accept`      | Immediately start, dont ask for confirmation.                                         |                                            |
 
 ---
 
 ### 🔻 Protocol Selection (Mutually Exclusive)
 
-| Flag(s)         | Protocol     | Notes                                 |
-| --------------- | ------------ | ------------------------------------- |
-| `-P`, `--ICMP`  | ICMP (Ping)  | Default if no other protocol selected |
-| `-T`, `--TCP`   | TCP SYN      | Requires `--port`                     |
-| `-U`, `--UDP`   | UDP          | Requires `--port`                     |
-| `-D`, `--DNS`   | DNS over UDP | Requires `--domain`                   |
-| `-H`, `--HTTP`  | HTTP GET     | `--domain` Optional.                  |
-| `-S`, `--HTTPS` | TLS Hello    | Simulated TLS, uses raw binary format |
+| Flag(s)                   | Protocol     | Notes                                 |
+| ------------------------- | ------------ | ------------------------------------- |
+| `-P`, `--ICMP`, `--PING`  | ICMP (Ping)  | Must not specify `--port`             |
+| `-T`, `--TCP`             | TCP SYN      | Requires `--port`                     |
+| `-U`, `--UDP`             | UDP          | Requires `--port`                     |
+| `-D`, `--DNS`             | DNS over UDP | Requires `--domain`                   |
+| `-H`, `--HTTP`            | HTTP GET     | `--domain` Optional.                  |
+| `-S`, `--HTTPS`           | HTTPS GET    | `--domain` Optional.                  |
 
 ---
 
@@ -113,10 +113,10 @@ python michflooder.py -D -d example.com -n 1000 8.8.8.8
 python michflooder.py -H -d example.org -p 8080 -n 500 192.168.0.99
 ```
 
-### HTTPS TLS Hello Flood
+### HTTPS Flood
 
 ```bash
-python michflooder.py -S -p 443 -n 200 1.1.1.1
+python michflooder.py https://google.com:443 -n 200 
 ```
 
 ---
