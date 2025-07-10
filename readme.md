@@ -63,7 +63,7 @@ python michflooder.py [options] TARGET
 | `-t`, `--threads`     | Number of threads to use.                                                             | Number of CPU cores.                       |
 | `-i`, `--interval`    | Interval (in seconds) between packets.                                                | None.                                      |
 | `-d`, `--domain`      | Domain to include in DNS/HTTP(S) requests (required for `--dns`)                      |                                            |
-| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` / `--http`)                                     |                                            |
+| `-r`, `--rand-domain` | Randomize subdomain (requires `--dns` )                                               |                                            |
 | `-y`, `--accept`      | Immediately start, dont ask for confirmation.                                         |                                            |
 
 ---
